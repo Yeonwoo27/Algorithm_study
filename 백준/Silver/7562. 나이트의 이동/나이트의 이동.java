@@ -1,4 +1,3 @@
-
 import java.util.*;
 public class Main{
 	public static int l,T;
@@ -41,7 +40,7 @@ public class Main{
 			int[] temp=q.poll();
 			int x=temp[0];
 			int y=temp[1];
-			
+			if(x==x2&&y==y2) return;
 			for(int i=0;i<8;i++) {
 				int cx=x+dx[i];
 				int cy=y+dy[i];
