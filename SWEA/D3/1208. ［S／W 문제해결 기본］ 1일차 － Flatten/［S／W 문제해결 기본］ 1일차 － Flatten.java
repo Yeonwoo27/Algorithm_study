@@ -60,14 +60,14 @@ class Solution
 		{
 			
 		int N=sc.nextInt();
-		int[] arr=new int[101];
+		int[] arr=new int[100];
 		
 		for(int i=0;i<100;i++) {
 			arr[i]=sc.nextInt();
 		}
            
 		for(int i=0;i<N;i++) {
-             Arrays.sort(arr,0,100);
+             Arrays.sort(arr);
             if(arr[99]-arr[0]<=1) {
 				break;
 			}
@@ -75,7 +75,7 @@ class Solution
 			arr[0]++;
 			arr[99]--;
 		}
-		Arrays.sort(arr,0,100);
+		Arrays.sort(arr);
 		
 		System.out.println("#"+test_case+" "+(arr[99]-arr[0]));
 		
