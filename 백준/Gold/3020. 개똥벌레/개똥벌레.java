@@ -1,39 +1,52 @@
 
-
+import java.io.*;
 import java.util.*;
 public class Main {
-    static int[] up;
-    static int[] down;
-    static boolean[] visited; 
-    static int[] sum;
-    static int N,H;
-    public static int min=Integer.MAX_VALUE;
-    public static int ans=0;
+	public static int N,H;
+	
+	public static int[] up;
+	public static int[] down;
+	
+	public static void main(String[] args) throws IOException {
 
-    public static void main(String[] args) {
-        Scanner sc=new Scanner(System.in);
-        N = sc.nextInt();
-        H=sc.nextInt();
-        up=new int[H+1];
-        down=new int[H+1];
-        for(int i=0;i<N;i++) {
-        	int height=sc.nextInt();
-        	if(i%2==0) up[height]++;
-        	else down[height]++;
-        }
-        for(int i=H-1;i>0;i--) {
-        	up[i]+=up[i+1];
-        	down[i]+=down[i+1];
-        }
-        for(int i=1;i<=H;i++) {
-        	int sum=down[i]+up[H+1-i];
-        	if(sum<min) {
-        		min=sum;
-        		ans=1;
-        	}
-        	else if(sum==min) ans++;
-        }
-        System.out.println(min+" "+ans);
-    }
-   
+		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st=new StringTokenizer(br.readLine());
+		
+		N=Integer.parseInt(st.nextToken());
+		H=Integer.parseInt(st.nextToken());
+		up=new int[H+1];
+		down=new int[H+1];
+		
+		for(int i=0;i<N/2;i++) {
+			int d=Integer.parseInt(br.readLine());
+			down[d]++;
+			
+			int u=Integer.parseInt(br.readLine());
+			up[u]++;
+		}
+		
+		for(int i=H-1;i>1;i--) {
+			up[i-1]+=up[i];	
+			down[i-1]+=down[i];
+		}
+		for(int i=1;i<H;i++) {
+			//System.out.println(down[i]+" "+up[i]);
+		}
+		int min=Integer.MAX_VALUE;
+		int ans=0;
+		for(int i=1;i<=H;i++) {
+			int num=up[i]+down[H+1-i];
+			
+			if(num<min) {
+				min=num;
+				ans=1;
+			}
+			else if(num==min) ans++;
+		}
+		System.out.println(min+" "+ans);
+		
+	}
+
+	
+	
 }
