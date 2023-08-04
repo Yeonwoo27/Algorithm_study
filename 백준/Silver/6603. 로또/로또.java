@@ -1,64 +1,47 @@
+import java.util.Scanner;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.*;
-
-public class Main {
-	
-	
-	public static int N,M;
-	public static int[] arr;
-	public static boolean[] visited;
-	public static int Max=Integer.MAX_VALUE;
-	public static ArrayList<int[]> list=new ArrayList<>();
-	
+public class Main{
+	public static StringBuilder sb=new StringBuilder();
+	public static int[] num=new int[6];
+	public static int N;
 	public static void main(String[] args) {
-	
+		// TODO Auto-generated method stub
+		
 		Scanner sc=new Scanner(System.in);
-		
-		
+
 		while(true) {
-			list.clear();
+			sb.setLength(0);
 			N=sc.nextInt();
 			if(N==0) break;
-			
-			arr=new int[N];
-			visited=new boolean[N];
+			int[] arr=new int[N];
+			boolean[] visited=new boolean[N];
 			for(int i=0;i<N;i++) {
 				arr[i]=sc.nextInt();
 			}
+			dfs(0,0,arr,visited);
+			System.out.println(sb);
 			
-			dfs(0,0);
-			for(int i=0;i<list.size();i++) {
-				int[] newlist=list.get(i);
-				for(int j=0;j<6;j++) {
-					System.out.print(newlist[j]+" ");
-				}
-				System.out.println();
-			}
-			System.out.println();
-		}
-		
-		
-		
-	
-		
+		} 
 	}
-	public static void dfs(int start,int cnt) {
-		if(cnt==6) {
-			int idx=0;
-			int[] ans=new int[6];
-			for(int i=0;i<N;i++) {
-				if(visited[i]) ans[idx++]=arr[i];
+	public static void dfs(int start,int idx,int[] arr, boolean[] visited) {
+		if(idx==6) {
+			for(int i=0;i<6;i++) {
+				sb.append(num[i]);
+				sb.append(" ");
 			}
-			list.add(ans);
+			sb.append("\n");
 			return;
 		}
+		
 		for(int i=start;i<N;i++) {
-			visited[i]=true;
-			dfs(i+1,cnt+1);
-			visited[i]=false;
+			if(!visited[i]) {
+				visited[i]=true;
+				num[idx]=arr[i];
+				dfs(i+1,idx+1,arr,visited);
+				visited[i]=false;
+			}
 		}
+		
 	}
-	
+
 }
