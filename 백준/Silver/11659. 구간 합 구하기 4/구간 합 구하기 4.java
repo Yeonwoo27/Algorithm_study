@@ -12,21 +12,18 @@ public class Main{
 		int M=sc.nextInt();
 		
 		int[] arr=new int[N+1];
-		int[] sum=new int[N+1];
 		
 		for(int i=1;i<=N;i++) {
-			arr[i]=sc.nextInt();
+			int n=sc.nextInt();
+			arr[i]=arr[i-1]+n;
 		}
 		
-		for(int i=1;i<=N;i++) {
-			sum[i]=sum[i-1]+arr[i];
-		}
 		
 		for(int i=0;i<M;i++) {
 			int a=sc.nextInt();
 			int b=sc.nextInt();
 			
-			sb.append(sum[b]-sum[a-1]);
+			sb.append(arr[b]-arr[a-1]);
 			sb.append("\n");
 		}
 		
