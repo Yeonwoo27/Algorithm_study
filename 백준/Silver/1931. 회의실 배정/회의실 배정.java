@@ -1,31 +1,38 @@
 
-
 import java.util.*;
 
 public class Main{
+	static int N;
 	
+	static ArrayList<Node> list=new ArrayList<>();
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Scanner sc=new Scanner(System.in);
-		int N=sc.nextInt();	
-		int[][] time=new int[N][2];
+		N=sc.nextInt();	
+		
 		for(int i=0;i<N;i++) {
-			time[i][0]=sc.nextInt(); //시작
-			time[i][1]=sc.nextInt(); //종료
+			int a=sc.nextInt();
+			int b=sc.nextInt();
+			list.add(new Node(a,b));
 		}
-		Arrays.sort(time,(o1,o2)->{
-			if(o1[1]==o2[1]) {
-				return o1[0]-o2[0];
+		Collections.sort(list,new Comparator<Node>() {
+		
+			public int compare(Node o1, Node o2) {
+				
+				if(o1.y==o2.y) {
+					return o1.x-o2.x;
+					}
+				return o1.y-o2.y;
 			}
-			return o1[1]-o2[1];
 		});
 		
 		int ans=1;
-		int end=time[0][1];
+		int end=list.get(0).y;
 		
 		for(int i=1;i<N;i++) {
-			if(time[i][0]>=end) {
-				end=time[i][1];
+			if(list.get(i).x>=end) {
+				end=list.get(i).y;
 				ans++;
 			}
 		}
