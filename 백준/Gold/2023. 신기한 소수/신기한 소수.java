@@ -24,6 +24,7 @@ public class Main {
 			for(int j=0;j<list.size();j++) {
 				int a=list.get(j);
 				for(int k=1;k<=9;k+=2) {
+                    if(k%2==0||k==5) continue;
 					if(check(a*10+k)) new_list.add(a*10+k); 
 				}
 			}
