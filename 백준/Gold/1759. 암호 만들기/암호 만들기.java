@@ -1,60 +1,63 @@
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+/* 먼저 오름차순으로 정렬을 해준뒤, C개의 알파벳중에서 L개를 뽑고 뽑으면서 str을 만들어준다.
+/* 그리고 재귀함수 진행중에 길이가 L이 되면 check함수 실행. 
+/*check함수는 각 자리에 최소 2개의 자음과 최소 한개의 모음이 있는지 체크
+ */
 public class Main {
-	
-	
 	public static int L,C;
-	public static String[] alpha;
-	public static boolean[] visited;
-	public static List<String> list=new ArrayList<>();
+	public static char[] arr;
+	public static StringBuilder sb=new StringBuilder();
 	
 	public static void main(String[] args) throws IOException {
-		Scanner sc=new Scanner(System.in);
+		// TODO Auto-generated method stub
+		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st=new StringTokenizer(br.readLine());
 		
-		L=sc.nextInt();
-		C=sc.nextInt();
-		alpha=new String[C];
-		visited=new boolean[C];
+		L=Integer.parseInt(st.nextToken());
+		C=Integer.parseInt(st.nextToken());
+		arr=new char[C];
+		
+		String str=br.readLine();
 		for(int i=0;i<C;i++) {
-			
-			alpha[i]=sc.next();
+			arr[i]=str.charAt(i*2);
 		}
+		Arrays.sort(arr);
 		
-		Arrays.sort(alpha);
 		dfs(0,0,"");
 		
-		for(String s : list) {
-			System.out.println(s);
-		}
-		
+		System.out.println(sb);
 	}
 	public static void dfs(int start,int cnt,String str) {
 		if(cnt==L) {
 			if(check(str)) {
-				list.add(str);
-				return;
+				sb.append(str);
+				sb.append("\n");
 			}
+			return;
 		}
 		for(int i=start;i<C;i++) {
-			if(!visited[i]) {
-				visited[i]=true;
-				dfs(i+1,cnt+1,str+alpha[i]);
-				visited[i]=false;
-			}
-			
+			dfs(i+1,cnt+1,str+arr[i]);
 		}
-		
 	}
-	public static boolean check(String st) {
-		int ja=0;
-		int mo=0;
-		for(int i=0;i<st.length();i++) {
-			char c=st.charAt(i);
-			if(c=='a'||c=='e'||c=='i'||c=='o'||c=='u') mo++;
-			else ja++;	
+	public static boolean check(String s) {
+		int num1=0; //모음의 개수
+		int num2=0; //자음의 개수
+		for(int i=0;i<s.length();i++) {
+			if(s.charAt(i)=='a'||s.charAt(i)=='e'||s.charAt(i)=='i'||s.charAt(i)=='o'||s.charAt(i)=='u') {
+				num1++;
+			}
+			else num2++;
 		}
-		if(mo>=1&&ja>=2) return true;
+		if(num1>=1&&num2>=2) return true;
 		else return false;
 	}
 }
+
+
+
