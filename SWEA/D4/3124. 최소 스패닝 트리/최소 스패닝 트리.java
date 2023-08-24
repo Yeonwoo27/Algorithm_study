@@ -1,85 +1,79 @@
 
-
 import java.util.*;
 import java.io.*;
 
 class Solution {
-	public static int V, E;
-	public static Node[] list;
-	public static int[] arr;
+    public static int V, E;
+    public static ArrayList<Vertex>[] list; // 인접리스트
+    public static int[] arr;
 
-	public static void main(String args[]) throws Exception {
+    public static void main(String args[]) throws Exception {
 
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int T;
-		T = Integer.parseInt(st.nextToken());
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int T;
+        T = Integer.parseInt(st.nextToken());
 
-		for (int test_case = 1; test_case <= T; test_case++) {
-			st = new StringTokenizer(br.readLine());
-			V = Integer.parseInt(st.nextToken());
-			E = Integer.parseInt(st.nextToken());
-			list = new Node[E];
-			arr = new int[V + 1];
+        for (int test_case = 1; test_case <= T; test_case++) {
+            st = new StringTokenizer(br.readLine());
+            V = Integer.parseInt(st.nextToken());
+            E = Integer.parseInt(st.nextToken());
+            list=new ArrayList[V+1];
+            for(int i=1;i<=V;i++) list[i]=new ArrayList<>();
+            
+            for(int i=0;i<E;i++) {
+                st = new StringTokenizer(br.readLine());
+                int from=Integer.parseInt(st.nextToken());
+                int to=Integer.parseInt(st.nextToken());
+                int weight=Integer.parseInt(st.nextToken());
+                
+                list[from].add(new Vertex(to,weight));
+                list[to].add(new Vertex(from,weight));
+            }
+            boolean[] visited=new boolean[V+1]; //방문 정점
+            int[] minEdge=new int[V+1]; // 자신과 트리의 정점들 간 최소 간선 비용
 
-			int A, B, C;
-			for (int i = 0; i < E; i++) {
-				st = new StringTokenizer(br.readLine());
-				A = Integer.parseInt(st.nextToken());
-				B = Integer.parseInt(st.nextToken());
-				C = Integer.parseInt(st.nextToken());
+            for(int i=1;i<=V;i++) minEdge[i]=Integer.MAX_VALUE;
+            PriorityQueue<Vertex> pQueue=new PriorityQueue<>();
+            minEdge[1]=0; //임의의 1정점을 트리 구성의 시작으로 설정
+            pQueue.add(new Vertex(1,0));
+            
+            long result=0;
+            int min = 0, minVertex = 0, cnt = 0;
+            
+            while(!pQueue.isEmpty()) {
+                Vertex cur=pQueue.poll();
+                minVertex=cur.no;
+                min=cur.weight;
+                
+                if(visited[minVertex]) continue;
+                
+                visited[minVertex]=true;
+                result+=min;    //간선이 추가됐으므로 result에 가중치를 더한다.
+                for(int i=0;i<list[minVertex].size();i++) {
+                	if(!visited[list[minVertex].get(i).no]) {
+                		pQueue.add(new Vertex(list[minVertex].get(i).no,list[minVertex].get(i).weight));
+                	}
+                }
+            }
+            System.out.println("#" + test_case + " " + result);
+        }
+    }
 
-				list[i] = new Node(A, B, C);
-			}
-			Arrays.sort(list);
+    public static class Vertex implements Comparable<Vertex> { // Vertex 클래스
+        int no, weight;
 
-			for (int i = 1; i <= V; i++) {
-				arr[i] = i;
-			}
-			long result = 0;
-			for (Node n : list) {
-				if (union(n.from, n.to)) {
-					result += n.weight;
-				}
-			}
+        public Vertex(int no, int weight) {
+            super();
+            this.no = no;
+            this.weight = weight;
+        }
 
-			System.out.println("#" + test_case + " " + result);
-		}
-	}
+        @Override
+        public int compareTo(Vertex o) { // 가중치로 오름차순 정렬하기 위한 compareTo 함수
 
-	public static boolean union(int a, int b) {
-		int aRoot = find(a);
-		int bRoot = find(b);
+            return Integer.compare(this.weight, o.weight);
+        }
 
-		if (aRoot == bRoot)
-			return false;
-		else {
-			arr[bRoot] = aRoot;
-			return true;
-		}
-	}
-
-	public static int find(int a) {
-		if (arr[a] == a)
-			return a;
-		return arr[a] = find(arr[a]);
-	}
-
-	public static class Node implements Comparable<Node> {
-		int from, to, weight;
-
-		public Node(int from, int to, int weight) {
-			super();
-			this.from = from;
-			this.to = to;
-			this.weight = weight;
-		}
-
-		@Override
-		public int compareTo(Node o) {
-
-			return Integer.compare(this.weight, o.weight);
-		}
-
-	}
+    }
 }
