@@ -3,37 +3,16 @@ class Solution {
     
     public int solution(int[][] routes) {
         int answer = 0;
-        boolean[] visited=new boolean[routes.length];
+        int camera=-30001;
         
-       Arrays.sort(routes, new Comparator<int[]>() {
-    
-            public int compare(int[] o1, int[] o2) {
-                if (o1[0] == o2[0])
-                    return o1[1] - o2[1];
-                else
-                    return o1[0] - o2[0];
-            }
-        });
+       Arrays.sort(routes,(a,b)->Integer.compare(a[1],b[1]));
         
         for(int i=0;i<routes.length;i++){
-            if(!visited[i]){
-                visited[i]=true;
-                int num=routes[i][1];
-                for(int j=i+1;j<routes.length;j++){
-                    if(num>=routes[j][0]){
-                        visited[j]=true;
-                        if(routes[j][1]<num){
-                            num=routes[j][1];
-                        }
-                    }else{
-                        break;
-                    }
-                }
+            if(camera<routes[i][0]){
+                camera=routes[i][1];
                 answer++;
             }
-            
         }
-       
        
         return answer;
     }
