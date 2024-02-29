@@ -16,14 +16,14 @@ class Solution {
         
         int sum=k;
         
-        for(int i=0;i<vlist.size();i++){
+        for(int i : vlist){
             
-            if(sum-vlist.get(i)<=0){
+            if(sum-i<=0){
                 answer++;
                 break;
             }
             
-            sum-=vlist.get(i);
+            sum-=i;
             answer++;
             
             
